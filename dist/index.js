@@ -143,7 +143,7 @@ function SortableList({
             children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: cn("space-y-3", className), children: list.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react.default.Fragment, { children: renderItem(item, index) }, getId(item))) })
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_core.DragOverlay, { dropAnimation, children: activeItem ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react.default.Fragment, { children: renderItem(activeItem, activeIndex) }, getId(activeItem)) : null })
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_core.DragOverlay, { dropAnimation, children: activeItem ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "scale-105 shadow-2xl cursor-grabbing rounded-xl ring-1 ring-black/5", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react.default.Fragment, { children: renderItem(activeItem, activeIndex) }, getId(activeItem)) }) : null })
       ]
     }
   );
@@ -158,8 +158,11 @@ function SortableItem({
   const sortable = (0, import_sortable.useSortable)({ id });
   const { setNodeRef, transform, transition, attributes, listeners, isDragging } = sortable;
   const style = {
-    transform: import_utilities.CSS.Transform.toString(transform),
-    transition: transition || "transform 150ms ease",
+    // Only apply the pointer's translation coords to the active element if it's NOT dragging,
+    // otherwise the transparent placeholder ALSO tracks the mouse while the DragOverlay moves,
+    // creating a confusing 'double' swap visual issue.
+    transform: isDragging ? void 0 : import_utilities.CSS.Transform.toString(transform),
+    transition,
     opacity: isDragging ? 0.3 : 1
   };
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(SortableItemContext.Provider, { value: sortable, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
@@ -167,7 +170,7 @@ function SortableItem({
     {
       ref: setNodeRef,
       style,
-      className: cn(className, isDragging && "z-50 relative"),
+      className: cn(className, isDragging && "z-50 relative bg-slate-50/50"),
       ...asHandle ? { ...attributes, ...listeners } : {},
       children
     }

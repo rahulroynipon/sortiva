@@ -118,7 +118,7 @@ function SortableList({
             children: /* @__PURE__ */ jsx2("div", { className: cn("space-y-3", className), children: list.map((item, index) => /* @__PURE__ */ jsx2(React2.Fragment, { children: renderItem(item, index) }, getId(item))) })
           }
         ),
-        /* @__PURE__ */ jsx2(DragOverlay, { dropAnimation, children: activeItem ? /* @__PURE__ */ jsx2(React2.Fragment, { children: renderItem(activeItem, activeIndex) }, getId(activeItem)) : null })
+        /* @__PURE__ */ jsx2(DragOverlay, { dropAnimation, children: activeItem ? /* @__PURE__ */ jsx2("div", { className: "scale-105 shadow-2xl cursor-grabbing rounded-xl ring-1 ring-black/5", children: /* @__PURE__ */ jsx2(React2.Fragment, { children: renderItem(activeItem, activeIndex) }, getId(activeItem)) }) : null })
       ]
     }
   );
@@ -133,8 +133,11 @@ function SortableItem({
   const sortable = useSortable({ id });
   const { setNodeRef, transform, transition, attributes, listeners, isDragging } = sortable;
   const style = {
-    transform: CSS.Transform.toString(transform),
-    transition: transition || "transform 150ms ease",
+    // Only apply the pointer's translation coords to the active element if it's NOT dragging,
+    // otherwise the transparent placeholder ALSO tracks the mouse while the DragOverlay moves,
+    // creating a confusing 'double' swap visual issue.
+    transform: isDragging ? void 0 : CSS.Transform.toString(transform),
+    transition,
     opacity: isDragging ? 0.3 : 1
   };
   return /* @__PURE__ */ jsx2(SortableItemContext.Provider, { value: sortable, children: /* @__PURE__ */ jsx2(
@@ -142,7 +145,7 @@ function SortableItem({
     {
       ref: setNodeRef,
       style,
-      className: cn(className, isDragging && "z-50 relative"),
+      className: cn(className, isDragging && "z-50 relative bg-slate-50/50"),
       ...asHandle ? { ...attributes, ...listeners } : {},
       children
     }

@@ -1,5 +1,5 @@
 {
-  "name": "react-dnd-sortable-list",
+  "name": "sortiva",
   "version": "1.0.0",
   "description": "A customizable, accessible sortable list component for React using @dnd-kit.",
   "main": "./dist/index.js",
@@ -37,6 +37,9 @@
     "drag-and-drop",
     "list"
   ],
-  "author": "",
+  "author": {
+    "name": "Rahul Roy Nipon",
+    "email": "rahulroynipon@gmail.com"
+  },
   "license": "MIT"
 }

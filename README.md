@@ -1,4 +1,4 @@
-# react-dnd-sortable-list
+# sortiva
 
 A highly customizable, accessible, and robust sortable list component for React, built on top of \`@dnd-kit\`.
 
@@ -11,7 +11,7 @@ A highly customizable, accessible, and robust sortable list component for React,
 ## Installation
 
 \`\`\`bash
-npm install react-dnd-sortable-list @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities lucide-react clsx tailwind-merge
+npm install sortiva @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities lucide-react clsx tailwind-merge
 \`\`\`
 
 *(Note: peer dependencies must be installed as well).*
@@ -23,7 +23,7 @@ npm install react-dnd-sortable-list @dnd-kit/core @dnd-kit/sortable @dnd-kit/uti
 By default, \`SortableItem\` requires a \`DragHandle\` to trigger the drag event. This allows users to interact with text inside the item without accidentally dragging it.
 
 \`\`\`tsx
-import { SortableList, SortableItem, DragHandle } from 'react-dnd-sortable-list';
+import { SortableList, SortableItem, DragHandle } from 'sortiva';
 
 function App() {
   const items = [

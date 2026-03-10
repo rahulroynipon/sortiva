@@ -1,0 +1,97 @@
+import { useState } from 'react';
+import { SortableList, SortableItem, DragHandle } from 'sortiva';
+import { Trash2, Edit } from 'lucide-react';
+
+function App() {
+  const [tasks, setTasks] = useState([
+    { id: 't1', title: 'Design Database Schema', status: 'In Progress' },
+    { id: 't2', title: 'Implement Auth API', status: 'To Do' },
+    { id: 't3', title: 'Build React UI', status: 'To Do' },
+    { id: 't4', title: 'Write Documentation', status: 'Done' },
+  ]);
+
+  const [cards, setCards] = useState([
+    { id: 'c1', title: 'Premium Plan', price: '$29/mo' },
+    { id: 'c2', title: 'Standard Plan', price: '$19/mo' },
+    { id: 'c3', title: 'Basic Plan', price: '$9/mo' },
+  ]);
+
+  return (
+    <div className="min-h-screen p-8 max-w-4xl mx-auto space-y-16">
+      <div className="text-center space-y-4">
+        <h1 className="text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+          Sortiva Demo
+        </h1>
+        <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+          A powerful and flexible drag-and-drop sortable list for React. Try reordering the items below using different handle configurations!
+        </p>
+      </div>
+
+      {/* Example 1: Standard List with Custom Handle */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+        <h2 className="text-2xl font-bold mb-2">1. Task List</h2>
+        <p className="text-slate-500 mb-6 font-medium text-sm">Targeted drag handle (try dragging the grip icon)</p>
+        
+        <SortableList
+          items={tasks}
+          getId={(t) => t.id}
+          onOrderChange={setTasks}
+          renderItem={(item) => (
+            <SortableItem 
+              id={item.id} 
+              className="group flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-slate-200 bg-white hover:border-blue-300 hover:shadow-md transition-all sm:justify-between"
+            >
+              <div className="flex items-center gap-4">
+                {/* Custom Styled Handle */}
+                <DragHandle 
+                  className="hover:bg-slate-100 rounded-lg p-2 text-slate-400 group-hover:text-blue-500 transition-colors"
+                />
+                <div>
+                  <h3 className="font-semibold text-slate-800">{item.title}</h3>
+                  <span className="text-xs font-medium px-2.5 py-1 inline-block mt-1 rounded-full bg-slate-100 text-slate-600">
+                    {item.status}
+                  </span>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                  <Edit className="w-4 h-4" />
+                </button>
+                <button className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </SortableItem>
+          )}
+        />
+      </div>
+
+      {/* Example 2: Entire Item is Draggable */}
+      <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+        <h2 className="text-2xl font-bold mb-2">2. Pricing Cards</h2>
+        <p className="text-slate-500 mb-6 font-medium text-sm">Entire element is draggable (try grabbing anywhere)</p>
+
+        <SortableList
+          items={cards}
+          getId={(c) => c.id}
+          onOrderChange={setCards}
+          className="grid gap-4 sm:grid-cols-3"
+          renderItem={(item) => (
+            <SortableItem 
+              id={item.id} 
+              asHandle 
+              className="w-full flex flex-col justify-center items-center p-6 text-center rounded-2xl bg-white shadow-sm border-2 border-transparent hover:border-purple-300 hover:shadow-lg transition-all cursor-grab active:cursor-grabbing hover:-translate-y-1"
+            >
+              <h3 className="font-bold text-lg text-slate-800 mb-2">{item.title}</h3>
+              <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">
+                {item.price}
+              </div>
+            </SortableItem>
+          )}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default App;

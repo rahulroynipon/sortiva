@@ -1,5 +1,26 @@
 import { useState } from 'react';
 import { SortableList, SortableItem, DragHandle } from 'sortiva';
+import { Check, Copy } from 'lucide-react';
+
+const CopyButton = ({ text }: { text: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-400 hover:text-white transition-all border border-white/10"
+      title="Copy to clipboard"
+    >
+      {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+    </button>
+  );
+};
 
 function App() {
   const [tasks, setTasks] = useState([
@@ -46,6 +67,7 @@ function App() {
           items={tasks}
           getId={(t) => t.id}
           onOrderChange={setTasks}
+          className="space-y-5"
           renderItem={(item) => (
             <SortableItem 
               id={item.id} 
@@ -77,7 +99,7 @@ function App() {
           items={cards}
           getId={(c) => c.id}
           onOrderChange={setCards}
-          className="grid gap-4 sm:grid-cols-3"
+          className="grid gap-6 sm:grid-cols-3"
           renderItem={(item) => (
             <SortableItem 
               id={item.id} 
@@ -97,23 +119,34 @@ function App() {
       <div className="bg-slate-900 rounded-2xl shadow-sm border border-slate-800 p-8 text-slate-300 overflow-hidden">
         <h2 className="text-2xl font-bold mb-2 text-white">3. How to Use</h2>
         <p className="text-slate-400 mb-6 font-medium text-sm">Install the package and use it in your React app.</p>
-        <pre className="p-6 rounded-xl bg-black/50 overflow-x-auto text-sm font-mono border border-slate-800 shadow-inner">
-          <code className="text-blue-300">npm install sortiva</code>
-          <br /><br />
-          <code className="text-pink-400">import</code> <code className="text-slate-300">{"{ SortableList, SortableItem, DragHandle }"}</code> <code className="text-pink-400">from</code> <code className="text-green-300">'sortiva'</code><code className="text-slate-300">;</code>
-          <br /><br />
-          <code className="text-slate-300">{"<"}<span className="text-blue-400">SortableList</span></code><br />
-          <code className="text-slate-300">  items={"{"}myArray{"}"}</code><br />
-          <code className="text-slate-300">  getId={"{"}(item) {">"} item.id{"}"}</code><br />
-          <code className="text-slate-300">  onOrderChange={"{"}setMyArray{"}"}</code><br />
-          <code className="text-slate-300">  renderItem={"{"}(item) {">"} (</code><br />
-          <code className="text-slate-300">    {"<"}<span className="text-blue-400">SortableItem</span> id={"{"}item.id{"}"}{">"}</code><br />
-          <code className="text-slate-300">      {"<"}<span className="text-blue-400">DragHandle</span> {"/>"}</code><br />
-          <code className="text-slate-300">      {"<span"}{">"}{"{"}item.name{"}"}{"</span"}{">"}</code><br />
-          <code className="text-slate-300">    {"</"}<span className="text-blue-400">SortableItem</span>{">"}</code><br />
-          <code className="text-slate-300">  ){"}"}</code><br />
-          <code className="text-slate-300">{"/>"}</code>
-        </pre>
+        
+        <div className="space-y-6">
+          <div className="relative group">
+            <CopyButton text="npm install sortiva" />
+            <pre className="p-4 rounded-xl bg-black/50 text-sm font-mono border border-slate-800 shadow-inner">
+              <code className="text-blue-300">npm install sortiva</code>
+            </pre>
+          </div>
+
+          <div className="relative group">
+            <CopyButton text={`import { SortableList, SortableItem, DragHandle } from 'sortiva';\n\n<SortableList\n  items={myArray}\n  getId={(item) => item.id}\n  onOrderChange={setMyArray}\n  renderItem={(item) => (\n    <SortableItem id={item.id}>\n      <DragHandle />\n      <span>{item.name}</span>\n    </SortableItem>\n  )}\n/>`} />
+            <pre className="p-6 rounded-xl bg-black/50 overflow-x-auto text-sm font-mono border border-slate-800 shadow-inner">
+              <code className="text-pink-400">import</code> <code className="text-slate-300">{"{ SortableList, SortableItem, DragHandle }"}</code> <code className="text-pink-400">from</code> <code className="text-green-300">'sortiva'</code><code className="text-slate-300">;</code>
+              <br /><br />
+              <code className="text-slate-300">{"<"}<span className="text-blue-400">SortableList</span></code><br />
+              <code className="text-slate-300">  items={"{"}myArray{"}"}</code><br />
+              <code className="text-slate-300">  getId={"{"}(item) {">"} item.id{"}"}</code><br />
+              <code className="text-slate-300">  onOrderChange={"{"}setMyArray{"}"}</code><br />
+              <code className="text-slate-300">  renderItem={"{"}(item) {">"} (</code><br />
+              <code className="text-slate-300">    {"<"}<span className="text-blue-400">SortableItem</span> id={"{"}item.id{"}"}{">"}</code><br />
+              <code className="text-slate-300">      {"<"}<span className="text-blue-400">DragHandle</span> {"/>"}</code><br />
+              <code className="text-slate-300">      {"<span"}{">"}{"{"}item.name{"}"}{"</span"}{">"}</code><br />
+              <code className="text-slate-300">    {"</"}<span className="text-blue-400">SortableItem</span>{">"}</code><br />
+              <code className="text-slate-300">  ){"}"}</code><br />
+              <code className="text-slate-300">{"/>"}</code>
+            </pre>
+          </div>
+        </div>
       </div>
     </div>
   );

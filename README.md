@@ -2,7 +2,7 @@
 
 A highly customizable, accessible, and robust sortable list component for React, built on top of `@dnd-kit`.
 
-[**View Demo**](https://github.com/rahulroynipon/sortiva/tree/main/demo)
+[**View Live Demo**](https://sortiva-demo.vercel.app)
 
 ## Demo Project
 Try the sortable list live! Inside this repository, navigate to the `demo` folder and run `npm run dev` to see the component in action with various interactive examples.
@@ -111,4 +111,4 @@ Props:
 - Email: [rahulroynipon@gmail.com](mailto:rahulroynipon@gmail.com)
 - GitHub: [https://github.com/rahulroynipon](https://github.com/rahulroynipon)
 - LinkedIn: [https://linkedin.com/in/rahulroynipon](https://linkedin.com/in/rahulroynipon)
-- Portfolio: [https://rahulroynipon.com](https://rahulroynipon.com)
+- LinkedIn: [https://linkedin.com/in/rahulroynipon](https://linkedin.com/in/rahulroynipon)

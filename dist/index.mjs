@@ -5,9 +5,7 @@ import {
   closestCenter,
   useSensor,
   useSensors,
-  PointerSensor,
-  DragOverlay,
-  defaultDropAnimationSideEffects
+  PointerSensor
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -58,7 +56,7 @@ var Button = React.forwardRef(
 Button.displayName = "Button";
 
 // src/SortableList.tsx
-import { jsx as jsx2, jsxs } from "react/jsx-runtime";
+import { jsx as jsx2 } from "react/jsx-runtime";
 function SortableList({
   items,
   getId,
@@ -67,18 +65,13 @@ function SortableList({
   className
 }) {
   const [list, setList] = useState(items);
-  const [activeId, setActiveId] = useState(null);
   useEffect(() => {
     setList(items);
   }, [items]);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
   );
-  const handleDragStart = (event) => {
-    setActiveId(event.active.id);
-  };
   const handleDragEnd = (event) => {
-    setActiveId(null);
     const { active, over } = event;
     if (!over || active.id === over.id) return;
     const oldIndex = list.findIndex((i) => getId(i) === active.id);
@@ -87,39 +80,20 @@ function SortableList({
     setList(newList);
     onOrderChange?.(newList);
   };
-  const handleDragCancel = () => {
-    setActiveId(null);
-  };
-  const activeItem = activeId ? list.find((i) => getId(i) === activeId) : null;
-  const activeIndex = activeId ? list.findIndex((i) => getId(i) === activeId) : -1;
-  const dropAnimation = {
-    sideEffects: defaultDropAnimationSideEffects({
-      styles: {
-        active: {
-          opacity: "0.4"
-        }
-      }
-    })
-  };
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ jsx2(
     DndContext,
     {
       sensors,
       collisionDetection: closestCenter,
-      onDragStart: handleDragStart,
       onDragEnd: handleDragEnd,
-      onDragCancel: handleDragCancel,
-      children: [
-        /* @__PURE__ */ jsx2(
-          SortableContext,
-          {
-            items: list.map(getId),
-            strategy: verticalListSortingStrategy,
-            children: /* @__PURE__ */ jsx2("div", { className: cn("space-y-3", className), children: list.map((item, index) => /* @__PURE__ */ jsx2(React2.Fragment, { children: renderItem(item, index) }, getId(item))) })
-          }
-        ),
-        /* @__PURE__ */ jsx2(DragOverlay, { dropAnimation, children: activeItem ? /* @__PURE__ */ jsx2("div", { className: "scale-105 shadow-2xl cursor-grabbing rounded-xl ring-1 ring-black/5", children: /* @__PURE__ */ jsx2(React2.Fragment, { children: renderItem(activeItem, activeIndex) }, getId(activeItem)) }) : null })
-      ]
+      children: /* @__PURE__ */ jsx2(
+        SortableContext,
+        {
+          items: list.map(getId),
+          strategy: verticalListSortingStrategy,
+          children: /* @__PURE__ */ jsx2("div", { className: cn("space-y-3", className), children: list.map((item, index) => /* @__PURE__ */ jsx2(React2.Fragment, { children: renderItem(item, index) }, getId(item))) })
+        }
+      )
     }
   );
 }

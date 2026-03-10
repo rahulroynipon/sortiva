@@ -92,18 +92,13 @@ function SortableList({
   className
 }) {
   const [list, setList] = (0, import_react.useState)(items);
-  const [activeId, setActiveId] = (0, import_react.useState)(null);
   (0, import_react.useEffect)(() => {
     setList(items);
   }, [items]);
   const sensors = (0, import_core.useSensors)(
     (0, import_core.useSensor)(import_core.PointerSensor, { activationConstraint: { distance: 5 } })
   );
-  const handleDragStart = (event) => {
-    setActiveId(event.active.id);
-  };
   const handleDragEnd = (event) => {
-    setActiveId(null);
     const { active, over } = event;
     if (!over || active.id === over.id) return;
     const oldIndex = list.findIndex((i) => getId(i) === active.id);
@@ -112,39 +107,20 @@ function SortableList({
     setList(newList);
     onOrderChange?.(newList);
   };
-  const handleDragCancel = () => {
-    setActiveId(null);
-  };
-  const activeItem = activeId ? list.find((i) => getId(i) === activeId) : null;
-  const activeIndex = activeId ? list.findIndex((i) => getId(i) === activeId) : -1;
-  const dropAnimation = {
-    sideEffects: (0, import_core.defaultDropAnimationSideEffects)({
-      styles: {
-        active: {
-          opacity: "0.4"
-        }
-      }
-    })
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
     import_core.DndContext,
     {
       sensors,
       collisionDetection: import_core.closestCenter,
-      onDragStart: handleDragStart,
       onDragEnd: handleDragEnd,
-      onDragCancel: handleDragCancel,
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-          import_sortable.SortableContext,
-          {
-            items: list.map(getId),
-            strategy: import_sortable.verticalListSortingStrategy,
-            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: cn("space-y-3", className), children: list.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react.default.Fragment, { children: renderItem(item, index) }, getId(item))) })
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_core.DragOverlay, { dropAnimation, children: activeItem ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "scale-105 shadow-2xl cursor-grabbing rounded-xl ring-1 ring-black/5", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react.default.Fragment, { children: renderItem(activeItem, activeIndex) }, getId(activeItem)) }) : null })
-      ]
+      children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+        import_sortable.SortableContext,
+        {
+          items: list.map(getId),
+          strategy: import_sortable.verticalListSortingStrategy,
+          children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: cn("space-y-3", className), children: list.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react.default.Fragment, { children: renderItem(item, index) }, getId(item))) })
+        }
+      )
     }
   );
 }

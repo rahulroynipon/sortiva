@@ -1,6 +1,8 @@
 # sortiva
 
-A highly customizable, accessible, and robust sortable list component for React, built on top of \`@dnd-kit\`.
+A highly customizable, accessible, and robust sortable list component for React, built on top of `@dnd-kit`.
+
+[**View Demo**](https://github.com/rahulroynipon/sortiva/tree/main/demo)
 
 ## Demo Project
 Try the sortable list live! Inside this repository, navigate to the `demo` folder and run `npm run dev` to see the component in action with various interactive examples.
@@ -13,9 +15,9 @@ Try the sortable list live! Inside this repository, navigate to the `demo` folde
 
 ## Installation
 
-\`\`\`bash
+```bash
 npm install sortiva @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities lucide-react clsx tailwind-merge
-\`\`\`
+```
 
 *(Note: peer dependencies must be installed as well).*
 
@@ -23,9 +25,9 @@ npm install sortiva @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities lucide-re
 
 ### 1. Basic Usage (Handle Drag Trigger)
 
-By default, \`SortableItem\` requires a \`DragHandle\` to trigger the drag event. This allows users to interact with text inside the item without accidentally dragging it.
+By default, `SortableItem` requires a `DragHandle` to trigger the drag event. This allows users to interact with text inside the item without accidentally dragging it.
 
-\`\`\`tsx
+```tsx
 import { SortableList, SortableItem, DragHandle } from 'sortiva';
 
 function App() {
@@ -50,23 +52,23 @@ function App() {
     />
   );
 }
-\`\`\`
+```
 
 ### 2. Make the Entire Item Draggable
 
-If you want the entire item to act as the drag handle (e.g. for card-based UI where you can grab any part of the card), use the \`asHandle\` prop on \`SortableItem\`.
+If you want the entire item to act as the drag handle (e.g. for card-based UI where you can grab any part of the card), use the `asHandle` prop on `SortableItem`.
 
-\`\`\`tsx
+```tsx
 <SortableItem id={item.id} asHandle className="p-4 border rounded-md cursor-grab active:cursor-grabbing">
   <span>{item.name} Drag anywhere to move me!</span>
 </SortableItem>
-\`\`\`
+```
 
 ### 3. Customizing the Drag Handle Icon or Button
 
-You can pass a custom \`icon\` to the \`DragHandle\`, or customize the button entirely by passing standard HTML button props or a custom \`className\`.
+You can pass a custom `icon` to the `DragHandle`, or customize the button entirely by passing standard HTML button props or a custom `className`.
 
-\`\`\`tsx
+```tsx
 import { Settings } from 'lucide-react'; // Your custom icon
 
 <SortableItem id={item.id} className="flex items-center gap-2 p-4 border rounded-md">
@@ -75,28 +77,38 @@ import { Settings } from 'lucide-react'; // Your custom icon
   
   <span>{item.name}</span>
 </SortableItem>
-\`\`\`
+```
 
 ## API Reference
 
-### \`SortableList\`
+### `SortableList`
 Props:
-- \`items: T[]\`: Array of items to sort.
-- \`getId: (item: T) => UniqueIdentifier\`: Function to extract a unique ID from an item.
-- \`renderItem: (item: T, index: number) => React.ReactNode\`: Render prop for each list item.
-- \`onOrderChange?: (items: T[]) => void\`: Callback fired when the order changes.
-- \`className?: string\`: Optional CSS class for the wrapper list.
+- `items: T[]`: Array of items to sort.
+- `getId: (item: T) => UniqueIdentifier`: Function to extract a unique ID from an item.
+- `renderItem: (item: T, index: number) => React.ReactNode`: Render prop for each list item.
+- `onOrderChange?: (items: T[]) => void`: Callback fired when the order changes.
+- `className?: string`: Optional CSS class for the wrapper list.
 
-### \`SortableItem\`
+### `SortableItem`
 Props:
-- \`id: string\`: Unique identifier (must match the ID from \`getId\`).
-- \`asHandle?: boolean\`: If \`true\`, the entire wrapper element becomes draggable. Default is \`false\`.
-- \`className?: string\`: Optional CSS class.
-- \`children: React.ReactNode\`
+- `id: string`: Unique identifier (must match the ID from `getId`).
+- `asHandle?: boolean`: If `true`, the entire wrapper element becomes draggable. Default is `false`.
+- `className?: string`: Optional CSS class.
+- `children: React.ReactNode`
 
-### \`DragHandle\`
-Must be rendered as a child of \`SortableItem\` if \`asHandle\` is \`false\`.
+### `DragHandle`
+Must be rendered as a child of `SortableItem` if `asHandle` is `false`.
 Props:
-- \`icon?: React.ReactNode\`: Custom icon element to render inside the drag handle button.
-- \`className?: string\`: Optional CSS class to customize the button wrapping the icon.
-- Accepts all standard HTML \`<button>\` attributes.
+- `icon?: React.ReactNode`: Custom icon element to render inside the drag handle button.
+- `className?: string`: Optional CSS class to customize the button wrapping the icon.
+- Accepts all standard HTML `<button>` attributes.
+
+---
+
+## Author
+
+**Rahul Roy Nipon**
+- Email: [rahulroynipon@gmail.com](mailto:rahulroynipon@gmail.com)
+- GitHub: [https://github.com/rahulroynipon](https://github.com/rahulroynipon)
+- LinkedIn: [https://linkedin.com/in/rahulroynipon](https://linkedin.com/in/rahulroynipon)
+- Portfolio: [https://rahulroynipon.com](https://rahulroynipon.com)

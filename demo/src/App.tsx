@@ -24,6 +24,15 @@ function App() {
         <p className="text-lg text-slate-500 max-w-2xl mx-auto">
           A powerful and flexible drag-and-drop sortable list for React. Try reordering the items below using different handle configurations!
         </p>
+        <div className="flex items-center justify-center gap-4 text-sm font-medium text-slate-600">
+          <span>By Rahul Roy Nipon</span>
+          <span>•</span>
+          <a href="mailto:rahulroynipon@gmail.com" className="text-blue-600 hover:underline">rahulroynipon@gmail.com</a>
+          <span>•</span>
+          <a href="https://github.com/rahulroynipon" target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">GitHub</a>
+          <span>•</span>
+          <a href="https://linkedin.com/in/rahulroynipon" target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">LinkedIn</a>
+        </div>
       </div>
 
       {/* Example 1: Standard List with Custom Handle */}
@@ -80,6 +89,29 @@ function App() {
             </SortableItem>
           )}
         />
+      </div>
+
+      {/* Example 3: Code Snippet */}
+      <div className="bg-slate-900 rounded-2xl shadow-sm border border-slate-800 p-8 text-slate-300 overflow-hidden">
+        <h2 className="text-2xl font-bold mb-2 text-white">3. How to Use</h2>
+        <p className="text-slate-400 mb-6 font-medium text-sm">Install the package and use it in your React app.</p>
+        <pre className="p-6 rounded-xl bg-black/50 overflow-x-auto text-sm font-mono border border-slate-800 shadow-inner">
+          <code className="text-blue-300">npm install sortiva</code>
+          <br /><br />
+          <code className="text-pink-400">import</code> <code className="text-slate-300">{"{ SortableList, SortableItem, DragHandle }"}</code> <code className="text-pink-400">from</code> <code className="text-green-300">'sortiva'</code><code className="text-slate-300">;</code>
+          <br /><br />
+          <code className="text-slate-300">{"<"}<span className="text-blue-400">SortableList</span></code><br />
+          <code className="text-slate-300">  items={"{"}myArray{"}"}</code><br />
+          <code className="text-slate-300">  getId={"{"}(item) {">"} item.id{"}"}</code><br />
+          <code className="text-slate-300">  onOrderChange={"{"}setMyArray{"}"}</code><br />
+          <code className="text-slate-300">  renderItem={"{"}(item) {">"} (</code><br />
+          <code className="text-slate-300">    {"<"}<span className="text-blue-400">SortableItem</span> id={"{"}item.id{"}"}{">"}</code><br />
+          <code className="text-slate-300">      {"<"}<span className="text-blue-400">DragHandle</span> {"/>"}</code><br />
+          <code className="text-slate-300">      {"<span"}{">"}{"{"}item.name{"}"}{"</span"}{">"}</code><br />
+          <code className="text-slate-300">    {"</"}<span className="text-blue-400">SortableItem</span>{">"}</code><br />
+          <code className="text-slate-300">  ){"}"}</code><br />
+          <code className="text-slate-300">{"/>"}</code>
+        </pre>
       </div>
     </div>
   );

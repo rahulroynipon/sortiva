@@ -2,6 +2,9 @@
 
 A highly customizable, accessible, and robust sortable list component for React, built on top of \`@dnd-kit\`.
 
+## Demo Project
+Try the sortable list live! Inside this repository, navigate to the `demo` folder and run `npm run dev` to see the component in action with various interactive examples.
+
 ## Features
 - 🚀 **Easy to use**: Minimal setup required.
 - 🎨 **Highly customizable**: Custom styling for everything, including drag handles and drag triggers!

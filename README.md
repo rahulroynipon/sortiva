@@ -111,4 +111,3 @@ Props:
 - Email: [rahulroynipon@gmail.com](mailto:rahulroynipon@gmail.com)
 - GitHub: [https://github.com/rahulroynipon](https://github.com/rahulroynipon)
 - LinkedIn: [https://linkedin.com/in/rahulroynipon](https://linkedin.com/in/rahulroynipon)
-- LinkedIn: [https://linkedin.com/in/rahulroynipon](https://linkedin.com/in/rahulroynipon)

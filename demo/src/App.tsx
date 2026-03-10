@@ -29,6 +29,8 @@ function App() {
           <span>•</span>
           <a href="mailto:rahulroynipon@gmail.com" className="text-blue-600 hover:underline">rahulroynipon@gmail.com</a>
           <span>•</span>
+          <a href="https://github.com/rahulroynipon/sortiva" target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">Repository</a>
+          <span>•</span>
           <a href="https://github.com/rahulroynipon" target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">GitHub</a>
           <span>•</span>
           <a href="https://linkedin.com/in/rahulroynipon" target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">LinkedIn</a>

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { SortableList, SortableItem, DragHandle } from 'sortiva';
-import { Trash2, Edit } from 'lucide-react';
 
 function App() {
   const [tasks, setTasks] = useState([
@@ -52,14 +51,6 @@ function App() {
                     {item.status}
                   </span>
                 </div>
-              </div>
-              <div className="flex gap-2">
-                <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                  <Edit className="w-4 h-4" />
-                </button>
-                <button className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-                  <Trash2 className="w-4 h-4" />
-                </button>
               </div>
             </SortableItem>
           )}

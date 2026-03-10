@@ -7,6 +7,9 @@ import {
   useSensor,
   useSensors,
   PointerSensor,
+  DragOverlay,
+  defaultDropAnimationSideEffects,
+  type DragStartEvent,
   type DragEndEvent,
   type UniqueIdentifier,
 } from "@dnd-kit/core";
@@ -38,6 +41,7 @@ export function SortableList<T>({
   className,
 }: SortableListProps<T>) {
   const [list, setList] = useState(items);
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
   // Sync internal state only when the items prop reference changes
   useEffect(() => {
@@ -48,7 +52,12 @@ export function SortableList<T>({
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
   );
 
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
+    setActiveId(null);
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
@@ -60,20 +69,50 @@ export function SortableList<T>({
     onOrderChange?.(newList); // Let parent store know new order
   };
 
+  const handleDragCancel = () => {
+    setActiveId(null);
+  };
+
+  const activeItem = activeId ? list.find((i) => getId(i) === activeId) : null;
+  const activeIndex = activeId ? list.findIndex((i) => getId(i) === activeId) : -1;
+
+  const dropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: "0.4",
+        },
+      },
+    }),
+  };
+
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
     >
       <SortableContext
         items={list.map(getId)}
         strategy={verticalListSortingStrategy}
       >
         <div className={cn("space-y-3", className)}>
-          {list.map((item, index) => renderItem(item, index))}
+          {list.map((item, index) => (
+            <React.Fragment key={getId(item)}>
+              {renderItem(item, index)}
+            </React.Fragment>
+          ))}
         </div>
       </SortableContext>
+      <DragOverlay dropAnimation={dropAnimation}>
+        {activeItem ? (
+          <React.Fragment key={getId(activeItem)}>
+            {renderItem(activeItem, activeIndex)}
+          </React.Fragment>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 }
@@ -103,7 +142,8 @@ export function SortableItem({
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
+    transition: transition || "transform 150ms ease",
+    opacity: isDragging ? 0.3 : 1,
   };
 
   return (

@@ -1,6 +1,6 @@
 {
   "name": "sortiva",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A customizable, accessible sortable list component for React using @dnd-kit.",
   "homepage": "https://sortiva-demo.vercel.app",
   "repository": {

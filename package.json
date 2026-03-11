@@ -30,7 +30,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "clsx": "^2.1.0",
-    "lucide-react": "^0.300.0",
+    "lucide-react": "^0.475.0",
     "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {

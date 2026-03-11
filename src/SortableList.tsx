@@ -7,6 +7,7 @@ import {
   useSensor,
   useSensors,
   PointerSensor,
+  TouchSensor,
   DragOverlay,
   defaultDropAnimationSideEffects,
   type DragStartEvent,
@@ -41,7 +42,7 @@ export function SortableList<T>({
   className,
 }: SortableListProps<T>) {
   const [list, setList] = useState(items);
-  // const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
   // Sync internal state only when the items prop reference changes
   useEffect(() => {
@@ -49,15 +50,16 @@ export function SortableList<T>({
   }, [items]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
   );
 
-  // const handleDragStart = (event: DragStartEvent) => {
-  //   setActiveId(event.active.id);
-  // };
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id);
+  };
 
   const handleDragEnd = (event: DragEndEvent) => {
-    // setActiveId(null);
+    setActiveId(null);
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
@@ -69,30 +71,30 @@ export function SortableList<T>({
     onOrderChange?.(newList); // Let parent store know new order
   };
 
-  // const handleDragCancel = () => {
-  //   setActiveId(null);
-  // };
+  const handleDragCancel = () => {
+    setActiveId(null);
+  };
 
-  // const activeItem = activeId ? list.find((i) => getId(i) === activeId) : null;
-  // const activeIndex = activeId ? list.findIndex((i) => getId(i) === activeId) : -1;
+  const activeItem = activeId ? list.find((i) => getId(i) === activeId) : null;
+  const activeIndex = activeId ? list.findIndex((i) => getId(i) === activeId) : -1;
 
-  // const dropAnimation = {
-  //   sideEffects: defaultDropAnimationSideEffects({
-  //     styles: {
-  //       active: {
-  //         opacity: "0.4",
-  //       },
-  //     },
-  //   }),
-  // };
+  const dropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: "0.4",
+        },
+      },
+    }),
+  };
 
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      // onDragStart={handleDragStart}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-    // onDragCancel={handleDragCancel}
+      onDragCancel={handleDragCancel}
     >
       <SortableContext
         items={list.map(getId)}
@@ -106,15 +108,13 @@ export function SortableList<T>({
           ))}
         </div>
       </SortableContext>
-      {/* <DragOverlay dropAnimation={dropAnimation}>
+      <DragOverlay dropAnimation={dropAnimation}>
         {activeItem ? (
           <div className="scale-105 shadow-2xl cursor-grabbing rounded-xl ring-1 ring-black/5">
-            <React.Fragment key={getId(activeItem)}>
-              {renderItem(activeItem, activeIndex)}
-            </React.Fragment>
+            {renderItem(activeItem, activeIndex)}
           </div>
         ) : null}
-      </DragOverlay> */}
+      </DragOverlay>
     </DndContext>
   );
 }
@@ -143,10 +143,7 @@ export function SortableItem({
   const { setNodeRef, transform, transition, attributes, listeners, isDragging } = sortable;
 
   const style = {
-    // Only apply the pointer's translation coords to the active element if it's NOT dragging,
-    // otherwise the transparent placeholder ALSO tracks the mouse while the DragOverlay moves,
-    // creating a confusing 'double' swap visual issue.
-    transform: isDragging ? undefined : CSS.Transform.toString(transform),
+    transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.3 : 1,
   };

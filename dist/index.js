@@ -92,13 +92,19 @@ function SortableList({
   className
 }) {
   const [list, setList] = (0, import_react.useState)(items);
+  const [activeId, setActiveId] = (0, import_react.useState)(null);
   (0, import_react.useEffect)(() => {
     setList(items);
   }, [items]);
   const sensors = (0, import_core.useSensors)(
-    (0, import_core.useSensor)(import_core.PointerSensor, { activationConstraint: { distance: 5 } })
+    (0, import_core.useSensor)(import_core.PointerSensor, { activationConstraint: { distance: 5 } }),
+    (0, import_core.useSensor)(import_core.TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
   );
+  const handleDragStart = (event) => {
+    setActiveId(event.active.id);
+  };
   const handleDragEnd = (event) => {
+    setActiveId(null);
     const { active, over } = event;
     if (!over || active.id === over.id) return;
     const oldIndex = list.findIndex((i) => getId(i) === active.id);
@@ -107,20 +113,39 @@ function SortableList({
     setList(newList);
     onOrderChange?.(newList);
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+  const handleDragCancel = () => {
+    setActiveId(null);
+  };
+  const activeItem = activeId ? list.find((i) => getId(i) === activeId) : null;
+  const activeIndex = activeId ? list.findIndex((i) => getId(i) === activeId) : -1;
+  const dropAnimation = {
+    sideEffects: (0, import_core.defaultDropAnimationSideEffects)({
+      styles: {
+        active: {
+          opacity: "0.4"
+        }
+      }
+    })
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
     import_core.DndContext,
     {
       sensors,
       collisionDetection: import_core.closestCenter,
+      onDragStart: handleDragStart,
       onDragEnd: handleDragEnd,
-      children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-        import_sortable.SortableContext,
-        {
-          items: list.map(getId),
-          strategy: import_sortable.verticalListSortingStrategy,
-          children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: cn("space-y-3", className), children: list.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react.default.Fragment, { children: renderItem(item, index) }, getId(item))) })
-        }
-      )
+      onDragCancel: handleDragCancel,
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          import_sortable.SortableContext,
+          {
+            items: list.map(getId),
+            strategy: import_sortable.verticalListSortingStrategy,
+            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: cn("space-y-3", className), children: list.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_react.default.Fragment, { children: renderItem(item, index) }, getId(item))) })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_core.DragOverlay, { dropAnimation, children: activeItem ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "scale-105 shadow-2xl cursor-grabbing rounded-xl ring-1 ring-black/5", children: renderItem(activeItem, activeIndex) }) : null })
+      ]
     }
   );
 }
@@ -134,10 +159,7 @@ function SortableItem({
   const sortable = (0, import_sortable.useSortable)({ id });
   const { setNodeRef, transform, transition, attributes, listeners, isDragging } = sortable;
   const style = {
-    // Only apply the pointer's translation coords to the active element if it's NOT dragging,
-    // otherwise the transparent placeholder ALSO tracks the mouse while the DragOverlay moves,
-    // creating a confusing 'double' swap visual issue.
-    transform: isDragging ? void 0 : import_utilities.CSS.Transform.toString(transform),
+    transform: import_utilities.CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.3 : 1
   };

@@ -45,8 +45,8 @@ function App() {
         <p className="text-lg text-slate-500 max-w-2xl mx-auto">
           A powerful and flexible drag-and-drop sortable list for React. Try reordering the items below using different handle configurations!
         </p>
-        <div className="flex items-center justify-center gap-4 text-sm font-medium text-slate-600">
-          <span>By Rahul Roy Nipon</span>
+        <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-medium text-slate-600">
+          <span className='text-nowrap'>By Rahul Roy Nipon</span>
           <span>•</span>
           <a href="mailto:rahulroynipon@gmail.com" className="text-blue-600 hover:underline">rahulroynipon@gmail.com</a>
           <span>•</span>
@@ -62,20 +62,20 @@ function App() {
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
         <h2 className="text-2xl font-bold mb-2">1. Task List</h2>
         <p className="text-slate-500 mb-6 font-medium text-sm">Targeted drag handle (try dragging the grip icon)</p>
-        
+
         <SortableList
           items={tasks}
           getId={(t) => t.id}
           onOrderChange={setTasks}
           className="space-y-5"
           renderItem={(item) => (
-            <SortableItem 
-              id={item.id} 
+            <SortableItem
+              id={item.id}
               className="group flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-slate-200 bg-white hover:border-blue-300 hover:shadow-md transition-all sm:justify-between"
             >
               <div className="flex items-center gap-4">
                 {/* Custom Styled Handle */}
-                <DragHandle 
+                <DragHandle
                   className="hover:bg-slate-100 rounded-lg p-2 text-slate-400 group-hover:text-blue-500 transition-colors"
                 />
                 <div>
@@ -101,9 +101,9 @@ function App() {
           onOrderChange={setCards}
           className="grid gap-6 sm:grid-cols-3"
           renderItem={(item) => (
-            <SortableItem 
-              id={item.id} 
-              asHandle 
+            <SortableItem
+              id={item.id}
+              asHandle
               className="w-full flex flex-col justify-center items-center p-6 text-center rounded-2xl bg-white shadow-sm border-2 border-transparent hover:border-purple-300 hover:shadow-lg transition-all cursor-grab active:cursor-grabbing hover:-translate-y-1"
             >
               <h3 className="font-bold text-lg text-slate-800 mb-2">{item.title}</h3>
@@ -119,7 +119,7 @@ function App() {
       <div className="bg-slate-900 rounded-2xl shadow-sm border border-slate-800 p-8 text-slate-300 overflow-hidden">
         <h2 className="text-2xl font-bold mb-2 text-white">3. How to Use</h2>
         <p className="text-slate-400 mb-6 font-medium text-sm">Install the package and use it in your React app.</p>
-        
+
         <div className="space-y-6">
           <div className="relative group">
             <CopyButton text="npm install sortiva" />
@@ -129,21 +129,26 @@ function App() {
           </div>
 
           <div className="relative group">
-            <CopyButton text={`import { SortableList, SortableItem, DragHandle } from 'sortiva';\n\n<SortableList\n  items={myArray}\n  getId={(item) => item.id}\n  onOrderChange={setMyArray}\n  renderItem={(item) => (\n    <SortableItem id={item.id}>\n      <DragHandle />\n      <span>{item.name}</span>\n    </SortableItem>\n  )}\n/>`} />
+            <CopyButton text={`const items = [\n  { id: '1', name: 'Item 1' },\n  { id: '2', name: 'Item 2' },\n  { id: '3', name: 'Item 3' }\n];\n\nreturn (\n  <SortableList\n    items={items}\n    getId={(item) => item.id}\n    onOrderChange={(newItems) => console.log(newItems)}\n    renderItem={(item) => (\n      <SortableItem id={item.id} className="flex items-center gap-2 p-4 border rounded-md mb-2">\n        <DragHandle />\n        <span>{item.name}</span>\n      </SortableItem>\n    )}\n  />\n);`} />
             <pre className="p-6 rounded-xl bg-black/50 overflow-x-auto text-sm font-mono border border-slate-800 shadow-inner">
-              <code className="text-pink-400">import</code> <code className="text-slate-300">{"{ SortableList, SortableItem, DragHandle }"}</code> <code className="text-pink-400">from</code> <code className="text-green-300">'sortiva'</code><code className="text-slate-300">;</code>
-              <br /><br />
-              <code className="text-slate-300">{"<"}<span className="text-blue-400">SortableList</span></code><br />
-              <code className="text-slate-300">  items={"{"}myArray{"}"}</code><br />
-              <code className="text-slate-300">  getId={"{"}(item) {">"} item.id{"}"}</code><br />
-              <code className="text-slate-300">  onOrderChange={"{"}setMyArray{"}"}</code><br />
-              <code className="text-slate-300">  renderItem={"{"}(item) {">"} (</code><br />
-              <code className="text-slate-300">    {"<"}<span className="text-blue-400">SortableItem</span> id={"{"}item.id{"}"}{">"}</code><br />
-              <code className="text-slate-300">      {"<"}<span className="text-blue-400">DragHandle</span> {"/>"}</code><br />
-              <code className="text-slate-300">      {"<span"}{">"}{"{"}item.name{"}"}{"</span"}{">"}</code><br />
-              <code className="text-slate-300">    {"</"}<span className="text-blue-400">SortableItem</span>{">"}</code><br />
-              <code className="text-slate-300">  ){"}"}</code><br />
-              <code className="text-slate-300">{"/>"}</code>
+              <code className="text-pink-400">const</code> <code className="text-slate-300">items = [</code><br />
+              <code className="text-slate-300">  {"{ id: '1', name: 'Item 1' },"}</code><br />
+              <code className="text-slate-300">  {"{ id: '2', name: 'Item 2' },"}</code><br />
+              <code className="text-slate-300">  {"{ id: '3', name: 'Item 3' }"}</code><br />
+              <code className="text-slate-300">{"];"}</code><br /><br />
+              <code className="text-pink-400">return</code> <code className="text-slate-300">(</code><br />
+              <code className="text-slate-300">  {"<"}<span className="text-blue-400">SortableList</span></code><br />
+              <code className="text-slate-300">    items={"{"}items{"}"}</code><br />
+              <code className="text-slate-300">    getId={"{"}(item) {"=>"} item.id{"}"}</code><br />
+              <code className="text-slate-300">    onOrderChange={"{"}(newItems) {"=>"} console.log(newItems){"}"}</code><br />
+              <code className="text-slate-300">    renderItem={"{"}(item) {"=>"} (</code><br />
+              <code className="text-slate-300">      {"<"}<span className="text-blue-400">SortableItem</span> id={"{"}item.id{"}"} className="flex items-center gap-2 p-4 border rounded-md mb-2"{">"}</code><br />
+              <code className="text-slate-300">        {"<"}<span className="text-blue-400">DragHandle</span> {"/>"}</code><br />
+              <code className="text-slate-300">        {"<span"}{">"}{"{"}item.name{"}"}{"</span"}{">"}</code><br />
+              <code className="text-slate-300">      {"</"}<span className="text-blue-400">SortableItem</span>{">"}</code><br />
+              <code className="text-slate-300">    ){"}"}</code><br />
+              <code className="text-slate-300">  {"/>"}</code><br />
+              <code className="text-slate-300">{");"}</code>
             </pre>
           </div>
         </div>
